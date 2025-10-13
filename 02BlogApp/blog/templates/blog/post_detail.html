@@ -4,6 +4,12 @@
 <div class='post-entry'>
     <h2> {{ post.title }} </h2>
     <p> {{ post.body }} </p>
-    <p> <a href="{% url 'home' %}"> Back to Home </a> </p>
+    <p>
+        <a href="{% url 'home' %}" style="display: inline-block; padding: 4px 8px; text-decoration: none; color: #007bff;">← Back to Home</a>
+    </p>
 </div>
+
+<a href="{% url 'post_edit' post.pk %}" style="padding-right: 8px; text-decoration: none; color: #007bff;">+ Edit Blog Post</a>
+<a href="{% url 'post_delete' post.pk %}" style="color: red; text-decoration: none;">- Delete Blog Post</a>
+
 {% endblock content %}
