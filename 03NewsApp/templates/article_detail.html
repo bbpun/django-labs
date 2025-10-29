@@ -1,34 +1,53 @@
-{% extends "base.html" %} {% block content %}
-
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% block content %}
 
-  <div class="article-entry">
-    <h2>{{ object.title }}</h2>
-
-    <p>{{ object.author }} | {{ object.date }}</p>
-
-    <p>{{ object.body }}</p>
+<div class="col-md-8 mx-auto">
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2 class="card-title mb-2">{{ object.title }}</h2>
+      <p class="text-muted mb-4">
+        <small>by {{ object.author }} · {{ object.date }}</small>
+      </p>
+      <p class="card-text">{{ object.body }}</p>
+    </div>
   </div>
 
-    <hr />
-    <h4>Comments</h4>
-    {% for comment in article.comment_set.all %}
-    <p>{{ comment.author }} &middot; {{ comment }}</p>
-    {% endfor %}
-    <hr />
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title mb-3">💬 Comments</h4>
+      {% for comment in article.comment_set.all %}
+        <div class="border-bottom mb-2 pb-2">
+          <strong>{{ comment.author }}</strong>
+          <span class="text-muted small">said:</span>
+          <p class="mb-1">{{ comment }}</p>
+        </div>
+      {% empty %}
+        <p class="text-muted">No comments yet. Be the first!</p>
+      {% endfor %}
+    </div>
+  </div>
 
-    <h4>Add a comment</h4>
+  {% if user.is_authenticated %}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4 class="card-title mb-3">Add a comment</h4>
       <form method="post">
-          {% csrf_token %}
-          {{ form|crispy }}
-          <button type="submit" class="btn btn-success ml-2">Save</button>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success mt-2">Post Comment</button>
       </form>
+    </div>
+  </div>
+  {% endif %}
 
-    <p>
-      <a href="{% url 'article_edit' article.pk %}">Edit</a> |
-      <a href="{% url 'article_delete' article.pk %}">Delete</a>
-    </p>
-
-    <p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
+  <div class="d-flex justify-content-between">
+    <div>
+      <a href="{% url 'article_edit' article.pk %}" class="btn btn-outline-warning btn-sm me-2">Edit</a>
+      <a href="{% url 'article_delete' article.pk %}" class="btn btn-outline-danger btn-sm">Delete</a>
+    </div>
+    <a href="{% url 'article_list' %}" class="btn btn-link">← Back to Articles</a>
+  </div>
+</div>
 
 {% endblock content %}

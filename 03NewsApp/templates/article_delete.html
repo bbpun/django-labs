@@ -1,13 +1,20 @@
 {% extends "base.html" %}
-
 {% block content %}
-
-    <h2>Delete Article</h2>
-    <form action="" method="post"> 
+<div class="col-md-8 mx-auto">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="mb-4 text-danger">🗑️ Delete Article</h2>
+      <div class="alert alert-warning">
+        <p class="mb-0">
+          Are you sure you want to permanently delete <strong>"{{ article.title }}"</strong>?
+        </p>
+      </div>
+      <form method="post">
         {% csrf_token %}
-        <p>Are you sure you want to delete "{{ article.title }}"?</p>
-        <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'article_list' %}">Cancel</a>
-    </form>
-
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'article_list' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock content %}
