@@ -11,6 +11,9 @@ media/
 # Virtualenv
 .venv/
 
+# Environment variables
+.env
+
 # VS Code
 .vscode/
 
